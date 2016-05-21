@@ -22,7 +22,7 @@ namespace HQMAdminTools
                 return null;
             messageCount = Chat.MessageCount;
             Chat.ChatMessage lastMessage = Chat.Messages[Chat.MessageCount];
-            if (lastMessage.Message.Length > 0 && lastMessage.Message[0] == '!')
+            if (lastMessage.Message.Length > 0 && lastMessage.Message[0] == '.' && lastMessage.Sender != null)
             {
                 string[] cmdstring = lastMessage.Message.Substring(1).Split(' ');
                 string cmd = cmdstring[0];

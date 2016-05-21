@@ -1,0 +1,3 @@
+[submodule "HQMEditorDedicated"]
+	path = HQMEditorDedicated
+	url = https://github.com/HockeyQuestionMark/HQMEditorDedicated

@@ -9,64 +9,60 @@ namespace HQMAdminTools
 {
     class Program
     {
+        static CommandListener commandListener = new CommandListener(Chat.MessageCount);
+        
+        static PauseManager pauseManager = new PauseManager();
+        static GameInfoEditor gameInfo = new GameInfoEditor();
+        static PositionHelper positionHelper = new PositionHelper();
+
+        static Dictionary<string, CommandProcessor> processor = new Dictionary<string, CommandProcessor>();
+
         static void Main(string[] args)
         {
-            Console.Write("Initializing...");
-            MemoryEditor.Init();            
-            CommandListener commandListener = new CommandListener(Chat.MessageCount);
-            PauseManager pauseManager = new PauseManager();
-            Console.Write("done.");            
+            Console.WriteLine("AdminTools for Hockey?");
+            Console.WriteLine("Created by Omaha");
+            Console.WriteLine("Contribute -> github.com/sam2/HQMAdminTools\n");
+            Console.Write("Initializing...");                              
+            Init();
+            Console.WriteLine("done.");            
 
             while(true)
             {
                 Command newCommand = commandListener.NewCommand();
-                pauseManager.Update(newCommand);  
+                 
                 if(newCommand != null)
-                { 
-                    if(newCommand.Sender.IsAdmin)
+                {
+                    CommandProcessor p;
+                    if(processor.TryGetValue(newCommand.Cmd, out p))
                     {
-                        if(newCommand.Cmd == "set")
-                        {
-                            if(newCommand.Args.Length > 1)
-                            {
-                                if (newCommand.Args[0] == "redscore")
-                                {
-                                    int score = 0;
-                                    if (Int32.TryParse(newCommand.Args[1], out score))
-                                    {
-                                        GameInfo.RedScore = score;
-                                    }
-                                }
-                                if (newCommand.Args[0] == "bluescore")
-                                {
-                                    int score = 0;
-                                    if (Int32.TryParse(newCommand.Args[1], out score))
-                                    {
-                                        GameInfo.BlueScore = score;
-                                    }
-                                }
-                                if (newCommand.Args[0] == "clock")
-                                {
-                                    TimeSpan clock;
-                                    if (TimeSpan.TryParse(newCommand.Args[1], out clock))
-                                    {
-                                        GameInfo.GameTime = clock;
-                                    }
-                                }
-                                if (newCommand.Args[0] == "period")
-                                {
-                                    int period = 0;
-                                    if (Int32.TryParse(newCommand.Args[1], out period))
-                                    {
-                                        GameInfo.Period = period;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                        p.ProcessCommand(newCommand);
+                    }                                                            
                 }
+                if(!MemoryEditor.IsAttached())
+                {
+                    Console.Write("Lost connection, retrying...");
+                    Init();
+                    Console.WriteLine("connected.");
+                }              
             }
-
         }        
+
+        static void Init()
+        {
+            while (!MemoryEditor.Init()) { }
+
+            commandListener = new CommandListener(Chat.MessageCount);
+
+            pauseManager = new PauseManager();
+            gameInfo = new GameInfoEditor();
+            positionHelper = new PositionHelper();
+
+            processor = new Dictionary<string, CommandProcessor>();
+            processor["set"] = gameInfo;
+            processor["pause"] = pauseManager;
+            processor["resume"] = pauseManager;
+            processor["faceoff"] = pauseManager;
+            processor["sp"] = positionHelper;
+        }
     }
 }

@@ -7,44 +7,44 @@ using HQMEditorDedicated;
 
 namespace HQMAdminTools
 {
-    public class PauseManager
+    public class PauseManager : CommandProcessor
     {
         int _faceoffTimer = 3;
         System.Timers.Timer _timer;       
 
         PauseState _state = PauseState.UnPaused;
 
-        public void Update(Command newCommand)
-        {
-            if (newCommand != null && newCommand.Sender.IsAdmin)
-            {
-                string senderName = newCommand.Sender.Name;
+        public void ProcessCommand(Command newCommand)
+        {         
+            if (!newCommand.Sender.IsAdmin)
+                return;
 
-                if (_state == PauseState.UnPaused)
+            string senderName = newCommand.Sender.Name;
+
+            if (_state == PauseState.UnPaused)
+            {
+                switch (newCommand.Cmd)
                 {
-                    switch (newCommand.Cmd)
-                    {
-                        case "pause":
-                            Pause(senderName);
-                            break;
-                        case "faceoff":
-                            Faceoff(senderName);
-                            break;
-                    }
+                    case "pause":
+                        Pause(senderName);
+                        break;
+                    case "faceoff":
+                        Faceoff(senderName);
+                        break;
                 }
-                else if (_state == PauseState.Paused)
+            }
+            else if (_state == PauseState.Paused)
+            {
+                switch (newCommand.Cmd)
                 {
-                    switch (newCommand.Cmd)
-                    {
-                        case "resume":
-                            Resume(senderName);
-                            break;
-                        case "faceoff":
-                            Faceoff(senderName);
-                            break;
-                    }
+                    case "resume":
+                        Resume(senderName);
+                        break;
+                    case "faceoff":
+                        Faceoff(senderName);
+                        break;
                 }
-            }         
+            }               
         }
 
         void Pause(string adminName)

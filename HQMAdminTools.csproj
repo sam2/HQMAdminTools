@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HQMEditorDedicated">
-      <HintPath>..\..\HQMEditorDedicated\HQMEditorDedicated\bin\Release\HQMEditorDedicated.dll</HintPath>
+      <HintPath>HQMEditorDedicated\HQMEditorDedicated\bin\Release\HQMEditorDedicated.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,7 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandListener.cs" />
+    <Compile Include="CommandProcessor.cs" />
+    <Compile Include="GameInfoEditor.cs" />
     <Compile Include="PauseManager.cs" />
+    <Compile Include="PositionHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
