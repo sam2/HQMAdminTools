@@ -17,6 +17,7 @@ namespace HQMAdminTools
                     if (Int32.TryParse(newCommand.Args[1], out redscore))
                     {
                         GameInfo.RedScore = redscore;
+                        Chat.SendMessage(newCommand.Sender.Name + " set " + newCommand.Args[0] + " to " + redscore);
                     }
                     break;
                 case "bluescore":                    
@@ -24,6 +25,7 @@ namespace HQMAdminTools
                     if (Int32.TryParse(newCommand.Args[1], out bluescore))
                     {
                         GameInfo.BlueScore = bluescore;
+                        Chat.SendMessage(newCommand.Sender.Name + " set " + newCommand.Args[0] + " to " + bluescore);
                     }
                     break;
                 case "clock":                    
@@ -31,6 +33,7 @@ namespace HQMAdminTools
                     if (TimeSpan.TryParse(newCommand.Args[1], out clock))
                     {
                         GameInfo.GameTime = clock;
+                        Chat.SendMessage(newCommand.Sender.Name + " set " + newCommand.Args[0] + " to " + clock);
                     }
                     break;
                 case "period":
@@ -38,6 +41,7 @@ namespace HQMAdminTools
                     if (Int32.TryParse(newCommand.Args[1], out period))
                     {
                         GameInfo.Period = period;
+                        Chat.SendMessage(newCommand.Sender.Name + " set " + newCommand.Args[0] + " to " + period);
                     }
                     break;                    
             }

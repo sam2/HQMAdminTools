@@ -50,21 +50,21 @@ namespace HQMAdminTools
         void Pause(string adminName)
         {
             Tools.PauseGame();
-            Chat.SendMessage("GAME PAUSED BY " + adminName);
+            Chat.SendMessage("Game paused by " + adminName);
             _state = PauseState.Paused;
         }
 
         void Resume(string adminName)
         {
             Tools.ResumeGame();
-            Chat.SendMessage("GAME RESUMED BY " + adminName);
+            Chat.SendMessage("Game resumed by " + adminName);
             _state = PauseState.UnPaused;
         }
 
         void Faceoff(string adminName)
         {
             Tools.PauseGame();            
-            Chat.SendMessage("FACEOFF INITIATED BY " + adminName);
+            Chat.SendMessage("Faceoff initiated by " + adminName);
 
             _timer = new System.Timers.Timer(1000);
             _timer.AutoReset = true;
