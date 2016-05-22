@@ -20,7 +20,6 @@ namespace HQMAdminTools
         static void Main(string[] args)
         {
             Console.WriteLine("AdminTools for Hockey?");
-            Console.WriteLine("Created by Omaha");
             Console.WriteLine("Contribute -> github.com/sam2/HQMAdminTools\n");
             Console.Write("Initializing...");                              
             Init();
@@ -43,13 +42,15 @@ namespace HQMAdminTools
                     Console.Write("Lost connection, retrying...");
                     Init();
                     Console.WriteLine("connected.");
-                }              
+                }
             }
         }        
 
         static void Init()
         {
             while (!MemoryEditor.Init()) { }
+
+            Chat.RecordCommandSource();
 
             commandListener = new CommandListener(Chat.MessageCount);
 

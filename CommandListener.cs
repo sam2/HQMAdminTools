@@ -17,17 +17,15 @@ namespace HQMAdminTools
         }
 
         public Command NewCommand()
-        {
-            if (messageCount == Chat.MessageCount)
-                return null;
-            messageCount = Chat.MessageCount;
-            Chat.ChatMessage lastMessage = Chat.Messages[Chat.MessageCount];
-            if (lastMessage.Message.Length > 0 && lastMessage.Message[0] == '.' && lastMessage.Sender != null)
-            {
-                string[] cmdstring = lastMessage.Message.Substring(1).Split(' ');
+        {     
+            Chat.ChatMessage lastCommand = Chat.LastCommand;
+            if (lastCommand.Message.Length > 0 && lastCommand.Message[0] == '/' && lastCommand.Sender != null)
+            {                
+                string[] cmdstring = lastCommand.Message.Substring(1).Split(' ');
                 string cmd = cmdstring[0];
                 string[] args = cmdstring.Skip(1).ToArray();
-                return new Command(lastMessage.Sender, cmd, args);
+                Chat.FlushLastCommand();
+                return new Command(lastCommand.Sender, cmd, args);
             }
             return null;
         }
