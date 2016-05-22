@@ -44,12 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandListener.cs" />
-    <Compile Include="CommandProcessor.cs" />
-    <Compile Include="GameInfoEditor.cs" />
-    <Compile Include="PauseManager.cs" />
-    <Compile Include="PositionHelper.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Source\CommandListener.cs" />
+    <Compile Include="Source\CommandProcessor.cs" />
+    <Compile Include="Source\GameInfoEditor.cs" />
+    <Compile Include="Source\PauseManager.cs" />
+    <Compile Include="Source\PositionHelper.cs" />
+    <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
