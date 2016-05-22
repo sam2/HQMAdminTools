@@ -33,7 +33,7 @@ namespace HQMAdminTools
                 Chat.SendMessage("type /vote "+voteType+" to vote yes");
                 _currentVote.AddVote(newCommand.Sender);
             }
-            else if(voteType == _currentVote.Type)
+            else if(voteType == _currentVote.Type && !_currentVote.Votes.Contains(newCommand.Sender.Slot))
             {
                 _currentVote.AddVote(newCommand.Sender);
             }
@@ -51,7 +51,7 @@ namespace HQMAdminTools
         class Vote
         {
             public string Type = "";
-            public List<Player> Votes;
+            public List<int> Votes;
             public int RequiredVotes;
 
             System.Timers.Timer _timer;
@@ -63,7 +63,7 @@ namespace HQMAdminTools
             {
                 Type = type;
                 RequiredVotes = requiredVotes;
-                Votes = new List<Player>();
+                Votes = new List<int>();
                 VotePassedAction = votepassedaction;
 
                 IsActive = true;
@@ -75,7 +75,7 @@ namespace HQMAdminTools
 
             public void AddVote(Player voter)
             {
-                Votes.Add(voter);
+                Votes.Add(voter.Slot);
                 Chat.SendMessage(Type + " vote: " + Votes.Count + "/" + RequiredVotes);
                 if (Votes.Count >= RequiredVotes)
                 {
