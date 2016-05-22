@@ -51,6 +51,7 @@
     <Compile Include="Source\PositionHelper.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\VoteManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
