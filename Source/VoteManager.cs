@@ -21,19 +21,21 @@ namespace HQMAdminTools
 
         public void ProcessCommand(Command newCommand)
         {
-            if (newCommand.Args.Length == 0)
-                return;
-
-            string voteType = newCommand.Args[0].ToLower();
-            Action votePassed;
-            if ((_currentVote == null || !_currentVote.IsActive) && VoteTypes.TryGetValue(voteType, out votePassed))
-            {             
-                _currentVote = new Vote(voteType, ServerInfo.PlayerCount, votePassed);                                       
-                Chat.SendMessage(newCommand.Sender.Name + " has started a vote: "+voteType);
-                Chat.SendMessage("type /vote "+voteType+" to vote yes");
-                _currentVote.AddVote(newCommand.Sender);
+            bool voteActive = _currentVote != null && _currentVote.IsActive;
+            if (newCommand.Args.Length > 0)
+            {
+                string voteType = newCommand.Args[0].ToLower();
+                Action votePassed;
+                if (!voteActive && VoteTypes.TryGetValue(voteType, out votePassed))
+                {
+                    _currentVote = new Vote(voteType, 0.75f, votePassed);
+                    Chat.SendMessage("VOTE STARTED BY "+newCommand.Sender.Name+": " + voteType);
+                    Chat.SendMessage("Type /vote for yes");
+                    _currentVote.AddVote(newCommand.Sender);
+                }
             }
-            else if(voteType == _currentVote.Type && !_currentVote.Votes.Contains(newCommand.Sender.Slot))
+            
+            else if(voteActive && !_currentVote.Votes.Contains(newCommand.Sender.Slot))
             {
                 _currentVote.AddVote(newCommand.Sender);
             }
@@ -52,17 +54,17 @@ namespace HQMAdminTools
         {
             public string Type = "";
             public List<int> Votes;
-            public int RequiredVotes;
+            public float RequiredPercent;
 
             System.Timers.Timer _timer;
 
             public bool IsActive;
             Action VotePassedAction;
 
-            public Vote(string type, int requiredVotes, Action votepassedaction)
+            public Vote(string type, float requiredPercentage, Action votepassedaction)
             {
                 Type = type;
-                RequiredVotes = requiredVotes;
+                RequiredPercent = requiredPercentage;
                 Votes = new List<int>();
                 VotePassedAction = votepassedaction;
 
@@ -76,8 +78,8 @@ namespace HQMAdminTools
             public void AddVote(Player voter)
             {
                 Votes.Add(voter.Slot);
-                Chat.SendMessage(Type + " vote: " + Votes.Count + "/" + RequiredVotes);
-                if (Votes.Count >= RequiredVotes)
+                Chat.SendMessage(Type + " vote - " + Votes.Count + "/" + Math.Ceiling(ServerInfo.PlayerCount * RequiredPercent));
+                if (Votes.Count >= ServerInfo.PlayerCount * RequiredPercent)
                 {
                     VotePassed();
                 }
