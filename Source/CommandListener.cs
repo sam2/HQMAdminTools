@@ -19,12 +19,11 @@ namespace HQMAdminTools
         public Command NewCommand()
         {     
             Chat.ChatMessage lastCommand = Chat.LastCommand;
-            if (lastCommand.Message.Length > 0 && lastCommand.Message[0] == '/' && lastCommand.Sender != null)
+            if (lastCommand != null && lastCommand.Message.Length > 0 && lastCommand.Message[0] == '/')
             {                
                 string[] cmdstring = lastCommand.Message.Substring(1).Split(' ');
                 string cmd = cmdstring[0];
-                string[] args = cmdstring.Skip(1).ToArray();
-                Chat.FlushLastCommand();
+                string[] args = cmdstring.Skip(1).ToArray();                
                 return new Command(lastCommand.Sender, cmd, args);
             }
             return null;

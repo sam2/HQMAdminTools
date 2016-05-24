@@ -35,7 +35,8 @@ namespace HQMAdminTools
                     if(processor.TryGetValue(newCommand.Cmd, out p))
                     {
                         p.ProcessCommand(newCommand);
-                    }                                                            
+                    }
+                    Chat.FlushLastCommand();
                 }
                 if(!MemoryEditor.IsAttached())
                 {
