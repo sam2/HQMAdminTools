@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HQMAdminTools
 {
-    interface CommandProcessor
+    interface ICommandProcessor
     {
         void ProcessCommand(Command cmd);
     }

@@ -7,7 +7,7 @@ using HQMEditorDedicated;
 
 namespace HQMAdminTools
 {
-    class VoteManager : CommandProcessor
+    class VoteManager : ICommandProcessor
     {      
         Vote _currentVote;
         Dictionary<string, Action> VoteTypes = new Dictionary<string, Action>();

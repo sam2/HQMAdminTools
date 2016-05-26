@@ -7,7 +7,7 @@ using HQMEditorDedicated;
 
 namespace HQMAdminTools
 {
-    public class PauseManager : CommandProcessor
+    public class PauseManager : ICommandProcessor
     {
         int _faceoffTimer = 3;
         System.Timers.Timer _timer;       

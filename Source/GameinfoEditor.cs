@@ -3,7 +3,7 @@ using HQMEditorDedicated;
 
 namespace HQMAdminTools
 {
-    class GameInfoEditor : CommandProcessor
+    class GameInfoEditor : ICommandProcessor
     {
         public void ProcessCommand(Command newCommand)
         {

@@ -7,13 +7,13 @@ namespace HQMAdminTools
     class Program
     {
         static CommandListener commandListener = new CommandListener(Chat.MessageCount);
-        
-        static PauseManager pauseManager = new PauseManager();
-        static GameInfoEditor gameInfo = new GameInfoEditor();
-        static PositionHelper positionHelper = new PositionHelper();
-        static VoteManager voteManager = new VoteManager();
 
-        static Dictionary<string, CommandProcessor> processor = new Dictionary<string, CommandProcessor>();
+        static PauseManager pauseManager;
+        static GameInfoEditor gameInfo;
+        static PositionHelper positionHelper;
+        static VoteManager voteManager;
+
+        static Dictionary<string, ICommandProcessor> processor = new Dictionary<string, ICommandProcessor>();
 
         static void Main(string[] args)
         {
@@ -23,7 +23,8 @@ namespace HQMAdminTools
             Console.Write("Attaching to "+processName+"...");
                                  
             Init(processName);
-            Console.WriteLine("done.");            
+            Console.WriteLine("done.");
+            
 
             while(true)
             {
@@ -31,7 +32,7 @@ namespace HQMAdminTools
                  
                 if(newCommand != null)
                 {
-                    CommandProcessor p;
+                    ICommandProcessor p;
                     if(processor.TryGetValue(newCommand.Cmd, out p))
                     {
                         p.ProcessCommand(newCommand);
@@ -43,7 +44,7 @@ namespace HQMAdminTools
                     Console.Write("Lost connection, retrying...");
                     Init(processName);
                     Console.WriteLine("connected.");
-                }
+                }                
             }
         }        
 
@@ -60,14 +61,15 @@ namespace HQMAdminTools
             positionHelper = new PositionHelper();
             voteManager = new VoteManager();
 
-
-            processor = new Dictionary<string, CommandProcessor>();
+            processor = new Dictionary<string, ICommandProcessor>();
             processor["set"] = gameInfo;
             processor["pause"] = pauseManager;
             processor["resume"] = pauseManager;
             processor["faceoff"] = pauseManager;
             processor["sp"] = positionHelper;
             processor["vote"] = voteManager;
+
+            Chat.FlushLastCommand();
         }
     }
 }

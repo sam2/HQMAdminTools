@@ -2,7 +2,7 @@
 
 namespace HQMAdminTools
 {
-    class PositionHelper : CommandProcessor
+    class PositionHelper : ICommandProcessor
     {
         public void ProcessCommand(Command newCommand)
         {
