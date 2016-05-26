@@ -1,3 +1,6 @@
 [submodule "HQMEditorDedicated"]
 	path = HQMEditorDedicated
 	url = https://github.com/HockeyQuestionMark/HQMEditorDedicated
+[submodule "RedditSharp"]
+	path = RedditSharp
+	url = https://github.com/SirCmpwn/RedditSharp
