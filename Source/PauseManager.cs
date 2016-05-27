@@ -54,7 +54,7 @@ namespace HQMAdminTools
             _state = PauseState.Paused;
         }
 
-        public void Resume(string adminName)
+        void Resume(string adminName)
         {
             Tools.ResumeGame();
             Chat.SendMessage("Game resumed by " + adminName);
@@ -90,9 +90,17 @@ namespace HQMAdminTools
             }
         }
 
-        public bool IsPaused
+        public void CheckForAutoResume()
         {
-            get { return _state == PauseState.Paused; }
+            if(_state == PauseState.Paused)
+            {
+                foreach (Player p in PlayerManager.Players)
+                {
+                    if (p.InServer)
+                        return;
+                }
+                Resume("AdminTools"); 
+            }            
         }
 
         enum PauseState

@@ -43,12 +43,8 @@ namespace HQMAdminTools
                     Console.Write("Lost connection, retrying...");
                     Init(processName);
                     Console.WriteLine("connected.");
-                }   
-                
-                if(ServerInfo.PlayerCount == 0 && pauseManager.IsPaused)
-                {
-                    pauseManager.Resume("AdminTools");
-                }               
+                }
+                pauseManager.CheckForAutoResume();       
             }
         }        
 
