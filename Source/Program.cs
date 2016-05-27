@@ -19,12 +19,11 @@ namespace HQMAdminTools
         {
             Console.WriteLine("AdminTools for Hockey?");
             Console.WriteLine("Contribute -> github.com/sam2/HQMAdminTools\n");
+
             string processName = args.Length > 0 ? args[0] : "hockeydedicated";
-            Console.Write("Attaching to "+processName+"...");
-                                 
+            Console.Write("Attaching to "+processName+"...");                                 
             Init(processName);
-            Console.WriteLine("done.");
-            
+            Console.WriteLine("done.");          
 
             while(true)
             {
@@ -44,7 +43,12 @@ namespace HQMAdminTools
                     Console.Write("Lost connection, retrying...");
                     Init(processName);
                     Console.WriteLine("connected.");
-                }                
+                }   
+                
+                if(ServerInfo.PlayerCount == 0 && pauseManager.IsPaused)
+                {
+                    pauseManager.Resume("AdminTools");
+                }               
             }
         }        
 

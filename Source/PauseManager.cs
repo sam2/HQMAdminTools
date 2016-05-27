@@ -43,7 +43,7 @@ namespace HQMAdminTools
                     case "faceoff":
                         Faceoff(senderName);
                         break;
-                }
+                }               
             }               
         }
 
@@ -54,7 +54,7 @@ namespace HQMAdminTools
             _state = PauseState.Paused;
         }
 
-        void Resume(string adminName)
+        public void Resume(string adminName)
         {
             Tools.ResumeGame();
             Chat.SendMessage("Game resumed by " + adminName);
@@ -88,6 +88,11 @@ namespace HQMAdminTools
 
                 _state = PauseState.UnPaused;
             }
+        }
+
+        public bool IsPaused
+        {
+            get { return _state == PauseState.Paused; }
         }
 
         enum PauseState
