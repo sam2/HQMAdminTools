@@ -12,6 +12,7 @@ namespace HQMAdminTools
         static GameInfoEditor gameInfo;
         static PositionHelper positionHelper;
         static VoteManager voteManager;
+        static BanHelper banHelper;
 
         static Dictionary<string, ICommandProcessor> processor = new Dictionary<string, ICommandProcessor>();
 
@@ -60,6 +61,7 @@ namespace HQMAdminTools
             gameInfo = new GameInfoEditor();
             positionHelper = new PositionHelper();
             voteManager = new VoteManager();
+            banHelper = new BanHelper();
 
             processor = new Dictionary<string, ICommandProcessor>();
             processor["set"] = gameInfo;
@@ -68,6 +70,7 @@ namespace HQMAdminTools
             processor["faceoff"] = pauseManager;
             processor["sp"] = positionHelper;
             processor["vote"] = voteManager;
+            processor["kick"] = banHelper; 
 
             Chat.FlushLastCommand();
         }

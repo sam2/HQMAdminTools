@@ -11,6 +11,7 @@ namespace HQMAdminTools
     {      
         Vote _currentVote;
         Dictionary<string, Action> VoteTypes = new Dictionary<string, Action>();
+        bool _enabled = false;
 
         public VoteManager()
         {
@@ -22,11 +23,29 @@ namespace HQMAdminTools
         public void ProcessCommand(Command newCommand)
         {
             bool voteActive = _currentVote != null && _currentVote.IsActive;
+
             if (newCommand.Args.Length > 0)
             {
                 string voteType = newCommand.Args[0].ToLower();
+
+                if (newCommand.Sender.IsAdmin)
+                {
+                    if (voteType == "enable" && !_enabled)
+                    {
+                        _enabled = true;
+                        Chat.SendMessage("Voting enabled.");
+                        return;
+                    }
+                    else if(voteType == "disable" && _enabled)
+                    {
+                        _enabled = false;
+                        Chat.SendMessage("Voting disabled.");
+                        return;
+                    }
+                }                
+                
                 Action votePassed;
-                if (!voteActive && VoteTypes.TryGetValue(voteType, out votePassed))
+                if (_enabled && !voteActive && VoteTypes.TryGetValue(voteType, out votePassed))
                 {
                     _currentVote = new Vote(voteType, 0.75f, votePassed);
                     Chat.SendMessage("VOTE STARTED BY "+newCommand.Sender.Name+": " + voteType);
@@ -35,9 +54,14 @@ namespace HQMAdminTools
                 }
             }
             
-            else if(voteActive && !_currentVote.Votes.Contains(newCommand.Sender.Slot))
+            else if(_enabled && voteActive && !_currentVote.Votes.Contains(newCommand.Sender.Slot))
             {
                 _currentVote.AddVote(newCommand.Sender);
+            }
+
+            if(!_enabled)
+            {
+                Chat.SendMessage("Voting is disabled.");
             }
         }
 

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\BanHelper.cs" />
     <Compile Include="Source\CommandListener.cs" />
     <Compile Include="Source\CommandProcessor.cs" />
     <Compile Include="Source\GameInfoEditor.cs" />
