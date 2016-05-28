@@ -13,6 +13,8 @@ You may also supply the name of the server process as a command line argument.
 /set bluescore x  
 /set clock hh:mm:ss (*Clock shows weird values if you include hours, I would stick to something like !set clock 0:5:0*)  
 /set period x  
+/kick x (*x is the slot the player is in in the tab menu*)  
+/vote (enable/disable) (*enables or disables voting*)
 
 **Other commands:**
 
